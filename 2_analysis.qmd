@@ -1,8 +1,5 @@
 # Results {#sec-analysis}
 
-- TODO: delete analysis folder after this section is complete
-
-
 ```{r dependencies}
 library(dplyr)
 library(ggplot2)
