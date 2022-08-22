@@ -56,7 +56,7 @@ data_lfc %>%
 
 ```{r results_lfc_power_main}
 data_lfc %>% 
-  filter(prev==0.25, m==5, n<1000, se==0.8, cortype=="equi") %>%
+  filter(prev==0.25, m==10, n<1000, se==0.8, cortype=="equi") %>%
   filter(transformation=="none") %>% 
   group_by(Adjustment, n, prev, m, rhose) %>%
   summarize(nsim=n(), rr = mean(`0.05` > 0)) %>%
