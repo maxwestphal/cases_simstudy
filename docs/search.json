@@ -18,7 +18,7 @@
     "href": "2_analysis.html",
     "title": "2  Results",
     "section": "",
-    "text": "TODO: delete analysis folder after this section is complete"
+    "text": "library(dplyr)\n\n\nAttaching package: 'dplyr'\n\n\nThe following objects are masked from 'package:stats':\n\n    filter, lag\n\n\nThe following objects are masked from 'package:base':\n\n    intersect, setdiff, setequal, union\n\nlibrary(ggplot2)"
   },
   {
     "objectID": "1_implementation.html#reproduction",

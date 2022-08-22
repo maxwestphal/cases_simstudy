@@ -5,7 +5,7 @@ project:
 book:
   title: "cases simulation study"
   author: "Max Westphal"
-  date: "17/07/2022"
+  date: "08/22/2022"
   chapters:
     - index.qmd
     - 1_implementation.qmd
