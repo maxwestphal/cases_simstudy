@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "cases simulation study",
     "section": "",
-    "text": "Westphal & Zapf, 2021 investigated different multiple comparison procedures (MCPs) for a certain type of analyis (e.g.) relevant in diagnostic accuracy studies, the so-called co-primary endpoint analysis.\nThe R package cases contains user-friendly implementations of these MCPs.\nThis R project cases_simstudy contains a reproducible description of the implementation and results of this simulation study in form of a quarto book.\nThis report is not meant to a standalone resource but rather should be read in addition to the main paper.\n\n\n\nWestphal, Max, and Antonia Zapf. “Statistical Inference for Diagnostic Test Accuracy Studies with Multiple Comparisons.” arXiv preprint arXiv:2105.13469 (2021)."
+    "text": "Westphal & Zapf, 2021 investigated different multiple comparison procedures (MCPs) for a certain type of analyis (e.g.) relevant in diagnostic accuracy studies, the so-called co-primary endpoint analysis.\nThe R package cases contains user-friendly implementations of these MCPs.\nThis R project cases_simstudy contains a reproducible description of the implementation and results of this simulation study in form of a quarto book. The GitHub repository for this project is github.com/maxwestphal/cases_simstudy\nThis report is not meant to a standalone resource but rather should be read in addition to the main paper.\n\n\n\nWestphal, Max, and Antonia Zapf. “Statistical Inference for Diagnostic Test Accuracy Studies with Multiple Comparisons.” arXiv preprint arXiv:2105.13469 (2021)."
   },
   {
     "objectID": "1_implementation.html",

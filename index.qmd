@@ -4,7 +4,7 @@
 
 The R package [cases](https://github.com/maxwestphal/cases/) contains user-friendly implementations of these MCPs.
 
-This R project **cases_simstudy** contains a reproducible description of the implementation and results of this simulation study in form of a [quarto book](https://quarto.org/docs/books). 
+This R project **cases_simstudy** contains a reproducible description of the implementation and results of this simulation study in form of a [quarto book](https://quarto.org/docs/books). The GitHub repository for this project is [github.com/maxwestphal/cases_simstudy](https://github.com/maxwestphal/cases_simstudy)
 
 This report is not meant to a standalone resource but rather should be read in addition to the main paper.
 
