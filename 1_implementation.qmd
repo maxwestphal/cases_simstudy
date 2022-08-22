@@ -1,0 +1,42 @@
+# Implementation {#sec-implementation}
+
+## Software
+
+The [cases](https://github.com/maxwestphal/cases) package provides the direct implementation all the multiple comparison procedures under investigation.
+
+The simulation study was conducted with the R package [batchtools](https://CRAN.R-project.org/package=batchtools). 
+
+For generation of the synthetic binary data, the [bindata](https://CRAN.R-project.org/package=bindata) package was used among others.
+
+Version control of employed dependencies is handled via the [renv](https://CRAN.R-project.org/package=renv) package.
+
+
+## Reproduction
+
+The required packages can be installed/loaded via
+
+```{r, eval=FALSE}
+install.packages("renv")
+renv::restore()
+```
+
+To reproduce the the simulation study two R scripts need to be executed
+
+- R/cases_simstudy_lfc.R,
+- R/cases_simstudy_roc.R
+
+In particular for the first run, it is required to setup the directories in the **PREPARATION** section in each file, in particular the **main.dir**.
+
+The simulation (problem, algorithm) parameters are specified as in the main paper. 
+
+## Info
+
+The simulation study has been conducted (originally) with the following system specification.
+
+```{r}
+R.Version()
+```
+
+
+
+

@@ -1,0 +1,237 @@
+# Results {#sec-analysis}
+
+- TODO: delete analysis folder after this section is complete
+
+
+```{r dependencies}
+library(dplyr)
+library(ggplot2)
+```
+
+
+```{r ggplot2_theme}
+owntheme <- theme(legend.position = "bottom",
+                  title=element_text(face="bold", size=24),
+                  axis.title = element_text(face="bold", size=20),
+                  legend.text = element_text(face="plain", size=20),
+                  legend.title = element_blank(), 
+                  axis.text = element_text(size=16)) 
+```
+
+
+## Simulation study 1: LFC setting
+
+### Main results
+```{r load_data_lfc}
+## process path if needed (corresponding to out.dir in "R/cases_simstudy_lfc.R")
+data_lfc <- readr::read_csv2("E:/cases_SIM/cases_SIM_results/cases_SIM_LFC.csv")
+
+data_lfc <- data_lfc %>%
+  mutate(Adjustment = recode_factor(interaction(adjustment, pars),
+                                    "none.list()" = "none",
+                                    "bonferroni.list()"="Bonferroni", 
+                                    "maxt.list()" = "maxT",
+                                    "mbeta.list()" = "mBeta",
+                                    "bootstrap.list(type='wild')" = "Bootstrap (wild)",
+                                    "bootstrap.list()" = "Bootstrap (pairs)"))
+
+dim(data_lfc)
+```
+
+
+```{r results_lfc_fwer_main}
+data_lfc %>% 
+  filter(prev==0.25, m==10, n<1000, se==0.8, cortype=="equi") %>%
+  filter(transformation=="none") %>% 
+  filter(regu=="c(1,1/2,1/4)") %>% 
+  group_by(Adjustment, n, prev, m, rhose) %>%
+  summarize(nsim=n(), rr = mean(fp > 0)) %>%
+  ggplot(aes(n, rr, col=Adjustment, fill=Adjustment, pch=Adjustment))+
+  geom_point(size=6, alpha=0.6) +
+  geom_line(size=2, alpha=0.6) +
+  xlab("Total sample size") +
+  ylab("FWER") +
+  scale_shape_manual(values = c(21, 22, 24, 25, 23, 23)) +
+  geom_hline(yintercept=0.025, col="red", lwd=2, lty=2, alpha=0.75) +
+  owntheme
+```
+
+
+```{r results_lfc_power_main}
+data_lfc %>% 
+  filter(prev==0.25, m==5, n<1000, se==0.8, cortype=="equi") %>%
+  filter(transformation=="none") %>% 
+  group_by(Adjustment, n, prev, m, rhose) %>%
+  summarize(nsim=n(), rr = mean(`0.05` > 0)) %>%
+  ggplot(aes(n, rr, col=Adjustment, fill=Adjustment, pch=Adjustment)) +
+  geom_point(size=6, alpha=0.6) +
+  geom_line(size=2, alpha=0.6) +
+  xlab("Total sample size") +
+  ylab("Power") + 
+  scale_shape_manual(values = c(21, 22, 24, 25, 23, 23)) +
+  owntheme
+```
+
+
+### Sensitivity analyses
+
+```{r results_lfc_fwer_sens}
+data_lfc %>% 
+  filter(n<1000, se==0.8, cortype=="equi") %>%
+  filter(transformation=="none") %>% 
+  filter(regu=="c(1,1/2,1/4)") %>% 
+  group_by(Adjustment, n, prev, m, rhose) %>%
+  summarize(nsim=n(), rr = mean(fp > 0)) %>%
+  ggplot(aes(n, rr, col=Adjustment, fill=Adjustment, pch=Adjustment))+
+  geom_point(size=6, alpha=0.6) +
+  geom_line(size=2, alpha=0.6) +
+  xlab("Total sample size") +
+  ylab("FWER") +
+  scale_shape_manual(values = c(21, 22, 24, 25, 23, 23)) +
+  geom_hline(yintercept=0.025, col="red", lwd=2, lty=2, alpha=0.75) +
+  owntheme +
+  facet_wrap(prev ~ m)
+```
+
+
+```{r lfc_power_sens_a}
+data_lfc %>% 
+  filter(n<1000, se==0.8, cortype=="equi") %>%
+  filter(transformation=="none") %>% 
+  group_by(Adjustment, n, prev, m, rhose) %>%
+  summarize(nsim=n(), rr = mean(`0.05` > 0)) %>%
+  ggplot(aes(n, rr, col=Adjustment, fill=Adjustment, pch=Adjustment)) +
+  geom_point(size=6, alpha=0.6) +
+  geom_line(size=2, alpha=0.6) +
+  xlab("Total sample size") +
+  ylab("Power") + 
+  scale_shape_manual(values = c(21, 22, 24, 25, 23, 23)) +
+  owntheme +
+  facet_wrap(prev ~ m)
+```
+
+
+
+```{r lfc_power_sens_b}
+data_lfc %>% 
+  filter(n<1000, se==0.8, cortype=="equi") %>%
+  filter(transformation=="none") %>% 
+  group_by(Adjustment, n, prev, m, rhose) %>%
+  summarize(nsim=n(), rr = mean(`0.1` > 0)) %>%
+  ggplot(aes(n, rr, col=Adjustment, fill=Adjustment, pch=Adjustment)) +
+  geom_point(size=6, alpha=0.6) +
+  geom_line(size=2, alpha=0.6) +
+  xlab("Total sample size") +
+  ylab("Power") + 
+  scale_shape_manual(values = c(21, 22, 24, 25, 23, 23)) +
+  owntheme +
+  facet_wrap(prev ~ m)
+```
+
+
+## Simulation study 2: ROC setting
+
+
+### Main results
+
+```{r}
+## process path if needed (corresponding to out.dir in "R/cases_simstudy_roc.R")
+data_roc <- readr::read_csv2("E:/cases_SIM/cases_SIM_results/cases_SIM_ROC.csv")
+
+data_roc <- data_roc %>%
+  mutate(Adjustment = recode_factor(interaction(adjustment, pars),
+                                    "none.list()" = "none",
+                                    "bonferroni.list()"="Bonferroni", 
+                                    "maxt.list()" = "maxT",
+                                    "mbeta.list()" = "mBeta",
+                                    "bootstrap.list(type='wild')" = "Bootstrap (wild)",
+                                    "bootstrap.list()" = "Bootstrap (pairs)"))
+
+
+dim(data_roc)
+```
+
+
+
+```{r results_roc_fwer_main}
+data_roc %>% 
+  filter(prev==0.25, m==10, e==100, n<1000,
+         rhose==0.5, auc=="seq(0.85, 0.90, length.out = 5)") %>%
+  group_by(Adjustment, n, prev, m, rhose, auc) %>%
+  summarize(nsim=n(), rr = mean(`0` > 0)) %>%
+  ggplot(aes(n, rr, col=Adjustment, fill=Adjustment, pch=Adjustment))+
+  geom_point(size=6, alpha=0.6) +
+  geom_line(size=2, alpha=0.6) +
+  xlab("Total sample size") +
+  ylab("FWER") +
+  scale_shape_manual(values = c(21, 22, 24, 25, 23, 23)) +
+  geom_hline(yintercept=0.025, col="red", lwd=2, lty=2, alpha=0.75) +
+  owntheme 
+```
+
+
+```{r results_roc_power_main}
+data_roc %>% 
+  filter(prev==0.25, m==10, e==100, n<1000, rhose==0.5, auc=="seq(0.85, 0.90, length.out = 5)") %>%
+  group_by(Adjustment, n, prev, m, rhose, e) %>%
+  summarize(nsim=n(), rr = mean(`0.1` > 0)) %>%
+  ggplot(aes(n, rr, col=Adjustment, fill=Adjustment, pch=Adjustment)) +
+  geom_point(size=6, alpha=0.6) +
+  geom_line(size=2, alpha=0.6) +
+  xlab("Total sample size") +
+  ylab("Power") + 
+  scale_shape_manual(values = c(21, 22, 24, 25, 23, 23)) +
+  owntheme 
+```
+
+
+### Sensitivity analyses
+
+```{r results_roc_fwer_sens}
+data_roc %>% 
+  filter(e==100, n<1000,
+         rhose==0.5, auc=="seq(0.85, 0.90, length.out = 5)") %>%
+  group_by(Adjustment, n, prev, m, rhose, auc) %>%
+  summarize(nsim=n(), rr = mean(`0` > 0)) %>%
+  ggplot(aes(n, rr, col=Adjustment, fill=Adjustment, pch=Adjustment))+
+  geom_point(size=6, alpha=0.6) +
+  geom_line(size=2, alpha=0.6) +
+  xlab("Total sample size") +
+  ylab("FWER") +
+  scale_shape_manual(values = c(21, 22, 24, 25, 23, 23)) +
+  geom_hline(yintercept=0.025, col="red", lwd=2, lty=2, alpha=0.75) +
+  owntheme +
+  facet_wrap(prev ~ m)
+```
+
+
+```{r results_roc_power_sens_a}
+data_roc %>% 
+  filter(e==100, n<1000, rhose==0.5, auc=="seq(0.85, 0.90, length.out = 5)") %>%
+  group_by(Adjustment, n, prev, m, rhose, e) %>%
+  summarize(nsim=n(), rr = mean(`0.1` > 0)) %>%
+  ggplot(aes(n, rr, col=Adjustment, fill=Adjustment, pch=Adjustment)) +
+  geom_point(size=6, alpha=0.6) +
+  geom_line(size=2, alpha=0.6) +
+  xlab("Total sample size") +
+  ylab("Power") + 
+  scale_shape_manual(values = c(21, 22, 24, 25, 23, 23)) +
+  owntheme +
+  facet_wrap(prev ~ m)
+```
+
+
+```{r results_roc_power_sens_b}
+data_roc %>% 
+  filter(e==100, n<1000, rhose==0.5, auc=="seq(0.85, 0.90, length.out = 5)") %>%
+  group_by(Adjustment, n, prev, m, rhose, e) %>%
+  summarize(nsim=n(), rr = mean(`0.1` > 0)) %>%
+  ggplot(aes(n, rr, col=Adjustment, fill=Adjustment, pch=Adjustment)) +
+  geom_point(size=6, alpha=0.6) +
+  geom_line(size=2, alpha=0.6) +
+  xlab("Total sample size") +
+  ylab("Power") + 
+  scale_shape_manual(values = c(21, 22, 24, 25, 23, 23)) +
+  owntheme +
+  facet_wrap(prev ~ m)
+```

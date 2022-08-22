@@ -1,0 +1,26 @@
+project:
+  type: book
+  output-dir: docs
+
+book:
+  title: "cases simulation study"
+  author: "Max Westphal"
+  date: "17/07/2022"
+  chapters:
+    - index.qmd
+    - 1_implementation.qmd
+    - 2_analysis.qmd
+
+format:
+  html:
+    theme: zephyr
+    toc: true
+    toc-location: right
+    toc-depth: 3
+    toc-title: Page contents
+    
+  pdf:
+    documentclass: scrreprt
+
+
+
