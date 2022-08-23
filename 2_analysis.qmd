@@ -5,6 +5,10 @@ library(dplyr)
 library(ggplot2)
 ```
 
+```{r}
+knitr::opts_chunk$set(cache=TRUE)
+```
+
 
 ```{r ggplot2_theme}
 owntheme <- theme(legend.position = "bottom",
@@ -35,13 +39,21 @@ data_lfc <- data_lfc %>%
 dim(data_lfc)
 ```
 
+```{r}
+data_lfc <- data_lfc %>% 
+  filter(cortype == "equi") %>% 
+  filter(rhose == 0.5) %>%
+  filter(transformation == "none") 
+
+dim(data_lfc)
+```
+
+
 
 ```{r results_lfc_fwer_main}
 data_lfc %>% 
-  filter(prev==0.25, m==10, n<1000, se==0.8, cortype=="equi") %>%
-  filter(transformation=="none") %>% 
-  filter(regu=="c(1,1/2,1/4)") %>% 
-  group_by(Adjustment, n, prev, m, rhose) %>%
+  filter(n<1000, prev==0.25, se==0.8, m==10) %>%
+  group_by(Adjustment, n, prev, se, m) %>%
   summarize(nsim=n(), rr = mean(fp > 0)) %>%
   ggplot(aes(n, rr, col=Adjustment, fill=Adjustment, pch=Adjustment))+
   geom_point(size=6, alpha=0.6) +
@@ -56,9 +68,8 @@ data_lfc %>%
 
 ```{r results_lfc_power_main}
 data_lfc %>% 
-  filter(prev==0.25, m==10, n<1000, se==0.8, cortype=="equi") %>%
-  filter(transformation=="none") %>% 
-  group_by(Adjustment, n, prev, m, rhose) %>%
+  filter(n<1000, prev==0.25, se==0.8, m==10) %>%
+  group_by(Adjustment, n, prev, se, m) %>%
   summarize(nsim=n(), rr = mean(`0.05` > 0)) %>%
   ggplot(aes(n, rr, col=Adjustment, fill=Adjustment, pch=Adjustment)) +
   geom_point(size=6, alpha=0.6) +
@@ -72,12 +83,10 @@ data_lfc %>%
 
 ### Sensitivity analyses
 
-```{r results_lfc_fwer_sens}
+```{r results_lfc_fwer_sens, out.width="100%", fig.asp = 2}
 data_lfc %>% 
-  filter(n<1000, se==0.8, cortype=="equi") %>%
-  filter(transformation=="none") %>% 
-  filter(regu=="c(1,1/2,1/4)") %>% 
-  group_by(Adjustment, n, prev, m, rhose) %>%
+  filter(n<1000) %>%
+  group_by(Adjustment, n, prev, se, m) %>%
   summarize(nsim=n(), rr = mean(fp > 0)) %>%
   ggplot(aes(n, rr, col=Adjustment, fill=Adjustment, pch=Adjustment))+
   geom_point(size=6, alpha=0.6) +
@@ -87,15 +96,15 @@ data_lfc %>%
   scale_shape_manual(values = c(21, 22, 24, 25, 23, 23)) +
   geom_hline(yintercept=0.025, col="red", lwd=2, lty=2, alpha=0.75) +
   owntheme +
-  facet_wrap(prev ~ m)
+  facet_wrap(prev+se ~ m, ncol=2, 
+             labeller = label_bquote("prev = " ~ .(prev) * ", " * "se = " ~ .(se) * ", " * "m = " ~ .(m)))
 ```
 
 
-```{r lfc_power_sens_a}
+```{r lfc_power_sens_a, out.width="100%", fig.asp = 2}
 data_lfc %>% 
-  filter(n<1000, se==0.8, cortype=="equi") %>%
-  filter(transformation=="none") %>% 
-  group_by(Adjustment, n, prev, m, rhose) %>%
+  filter(n<1000) %>%
+  group_by(Adjustment, n, prev, se, m) %>%
   summarize(nsim=n(), rr = mean(`0.05` > 0)) %>%
   ggplot(aes(n, rr, col=Adjustment, fill=Adjustment, pch=Adjustment)) +
   geom_point(size=6, alpha=0.6) +
@@ -104,16 +113,16 @@ data_lfc %>%
   ylab("Power") + 
   scale_shape_manual(values = c(21, 22, 24, 25, 23, 23)) +
   owntheme +
-  facet_wrap(prev ~ m)
+  facet_wrap(prev+se ~ m, ncol=2, 
+             labeller = label_bquote("prev = " ~ .(prev) * ", " * "se = " ~ .(se) * ", " * "m = " ~ .(m)))
 ```
 
 
 
-```{r lfc_power_sens_b}
+```{r lfc_power_sens_b, out.width="100%", fig.asp = 2}
 data_lfc %>% 
-  filter(n<1000, se==0.8, cortype=="equi") %>%
-  filter(transformation=="none") %>% 
-  group_by(Adjustment, n, prev, m, rhose) %>%
+  filter(n<1000) %>%
+  group_by(Adjustment, n, prev, se, m) %>%
   summarize(nsim=n(), rr = mean(`0.1` > 0)) %>%
   ggplot(aes(n, rr, col=Adjustment, fill=Adjustment, pch=Adjustment)) +
   geom_point(size=6, alpha=0.6) +
@@ -122,8 +131,10 @@ data_lfc %>%
   ylab("Power") + 
   scale_shape_manual(values = c(21, 22, 24, 25, 23, 23)) +
   owntheme +
-  facet_wrap(prev ~ m)
+  facet_wrap(prev+se ~ m, ncol=2, 
+             labeller = label_bquote("prev = " ~ .(prev) * ", " * "se = " ~ .(se) * ", " * "m = " ~ .(m)))
 ```
+
 
 
 ## Simulation study 2: ROC setting
@@ -131,7 +142,7 @@ data_lfc %>%
 
 ### Main results
 
-```{r}
+```{r data_load_roc, cache=FALSE}
 ## process path if needed (corresponding to out.dir in "R/cases_simstudy_roc.R")
 data_roc <- readr::read_csv2("E:/cases_SIM/cases_SIM_results/cases_SIM_ROC.csv")
 
@@ -146,15 +157,26 @@ data_roc <- data_roc %>%
 
 
 dim(data_roc)
+
+```
+
+
+
+```{r data_preproc_roc}
+data_roc <- data_roc %>% 
+  filter(rhose == 0.5) %>%
+  filter(auc == "seq(0.85, 0.90, length.out = 5)") %>% 
+  filter(transformation == "none") 
+
+dim(data_roc)
 ```
 
 
 
 ```{r results_roc_fwer_main}
 data_roc %>% 
-  filter(prev==0.25, m==10, e==100, n<1000,
-         rhose==0.5, auc=="seq(0.85, 0.90, length.out = 5)") %>%
-  group_by(Adjustment, n, prev, m, rhose, auc) %>%
+  filter(n<1000, prev==0.25, m==10) %>%
+  group_by(Adjustment, n, prev, m) %>%
   summarize(nsim=n(), rr = mean(`0` > 0)) %>%
   ggplot(aes(n, rr, col=Adjustment, fill=Adjustment, pch=Adjustment))+
   geom_point(size=6, alpha=0.6) +
@@ -169,8 +191,8 @@ data_roc %>%
 
 ```{r results_roc_power_main}
 data_roc %>% 
-  filter(prev==0.25, m==10, e==100, n<1000, rhose==0.5, auc=="seq(0.85, 0.90, length.out = 5)") %>%
-  group_by(Adjustment, n, prev, m, rhose, e) %>%
+  filter(n<1000, prev==0.25, m==10) %>%
+  group_by(Adjustment, n, prev, m) %>%
   summarize(nsim=n(), rr = mean(`0.1` > 0)) %>%
   ggplot(aes(n, rr, col=Adjustment, fill=Adjustment, pch=Adjustment)) +
   geom_point(size=6, alpha=0.6) +
@@ -184,11 +206,10 @@ data_roc %>%
 
 ### Sensitivity analyses
 
-```{r results_roc_fwer_sens}
+```{r results_roc_fwer_sens, out.width="100%", fig.asp = 1}
 data_roc %>% 
-  filter(e==100, n<1000,
-         rhose==0.5, auc=="seq(0.85, 0.90, length.out = 5)") %>%
-  group_by(Adjustment, n, prev, m, rhose, auc) %>%
+  filter(n<1000) %>%
+  group_by(Adjustment, n, prev, m) %>%
   summarize(nsim=n(), rr = mean(`0` > 0)) %>%
   ggplot(aes(n, rr, col=Adjustment, fill=Adjustment, pch=Adjustment))+
   geom_point(size=6, alpha=0.6) +
@@ -198,14 +219,15 @@ data_roc %>%
   scale_shape_manual(values = c(21, 22, 24, 25, 23, 23)) +
   geom_hline(yintercept=0.025, col="red", lwd=2, lty=2, alpha=0.75) +
   owntheme +
-  facet_wrap(prev ~ m)
+  facet_wrap(prev ~ m, ncol=2, 
+             labeller = label_bquote("prev = " ~ .(prev) * ", " * "m = " ~ .(m)))
 ```
 
 
-```{r results_roc_power_sens_a}
+```{r results_roc_power_sens_a, out.width="100%", fig.asp = 1}
 data_roc %>% 
-  filter(e==100, n<1000, rhose==0.5, auc=="seq(0.85, 0.90, length.out = 5)") %>%
-  group_by(Adjustment, n, prev, m, rhose, e) %>%
+  filter(n<1000) %>%
+  group_by(Adjustment, n, prev, m) %>%
   summarize(nsim=n(), rr = mean(`0.1` > 0)) %>%
   ggplot(aes(n, rr, col=Adjustment, fill=Adjustment, pch=Adjustment)) +
   geom_point(size=6, alpha=0.6) +
@@ -214,15 +236,16 @@ data_roc %>%
   ylab("Power") + 
   scale_shape_manual(values = c(21, 22, 24, 25, 23, 23)) +
   owntheme +
-  facet_wrap(prev ~ m)
+  facet_wrap(prev ~ m, ncol=2, 
+             labeller = label_bquote("prev = " ~ .(prev) * ", " * "m = " ~ .(m)))
 ```
 
 
-```{r results_roc_power_sens_b}
+```{r results_roc_power_sens_b, out.width="100%", fig.asp = 1}
 data_roc %>% 
-  filter(e==100, n<1000, rhose==0.5, auc=="seq(0.85, 0.90, length.out = 5)") %>%
-  group_by(Adjustment, n, prev, m, rhose, e) %>%
-  summarize(nsim=n(), rr = mean(`0.1` > 0)) %>%
+  filter(n<1000) %>%
+  group_by(Adjustment, n, prev, m) %>%
+  summarize(nsim=n(), rr = mean(`0.05` > 0)) %>%
   ggplot(aes(n, rr, col=Adjustment, fill=Adjustment, pch=Adjustment)) +
   geom_point(size=6, alpha=0.6) +
   geom_line(size=2, alpha=0.6) +
@@ -230,5 +253,6 @@ data_roc %>%
   ylab("Power") + 
   scale_shape_manual(values = c(21, 22, 24, 25, 23, 23)) +
   owntheme +
-  facet_wrap(prev ~ m)
+  facet_wrap(prev ~ m, ncol=2, 
+             labeller = label_bquote("prev = " ~ .(prev) * ", " * "m = " ~ .(m)))
 ```
