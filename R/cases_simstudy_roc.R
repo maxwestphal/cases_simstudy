@@ -6,7 +6,7 @@
 #   2022-08-21
 ###
 #   Project:
-#   cases_simstudy: Comparison of multiple  
+#   cases_simstudy
 ###
 #   Task: 
 #   cases_simstudy_lfc.R: Comparison of multiple comparison procedures 

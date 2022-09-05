@@ -49,4 +49,7 @@ vignettes/*.pdf
 /_book/
 /_site/
 
+# generated figures
+/figures/
+
 

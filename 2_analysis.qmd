@@ -19,22 +19,30 @@ owntheme <- theme(legend.position = "bottom",
                   axis.text = element_text(size=16)) 
 ```
 
+```{r}
+## set input dir, needs to be equal to out.dir from
+## cases_simstudy_lfc.R and cases_simstudy_roc.R:
+in.dir <- file.path("E:/cases_SIM/cases_SIM_results")
+```
+
+**For local reproduction, the input directory potentially needs to be adapted!**
 
 ## Simulation study 1: LFC setting
 
 ### Main results
 ```{r load_data_lfc}
-## process path if needed (corresponding to out.dir in "R/cases_simstudy_lfc.R")
-data_lfc <- readr::read_csv2("E:/cases_SIM/cases_SIM_results/cases_SIM_LFC.csv")
+data_lfc <- readr::read_csv2(file.path(in.dir, "cases_SIM_LFC.csv"))
 
 data_lfc <- data_lfc %>%
-  mutate(Adjustment = recode_factor(interaction(adjustment, pars),
-                                    "none.list()" = "none",
-                                    "bonferroni.list()"="Bonferroni", 
-                                    "maxt.list()" = "maxT",
-                                    "mbeta.list()" = "mBeta",
-                                    "bootstrap.list(type='wild')" = "Bootstrap (wild)",
-                                    "bootstrap.list()" = "Bootstrap (pairs)"))
+  mutate(Adjustment = recode_factor(
+    interaction(adjustment, pars),
+    "none.list()" = "none",
+    "bonferroni.list()"="Bonferroni", 
+    "maxt.list()" = "maxT",
+    "mbeta.list()" = "mBeta",
+    "bootstrap.list(type='wild')" = "Bootstrap (wild)",
+    "bootstrap.list()" = "Bootstrap (pairs)")
+  )
 
 dim(data_lfc)
 ```
@@ -143,18 +151,18 @@ data_lfc %>%
 ### Main results
 
 ```{r data_load_roc, cache=FALSE}
-## process path if needed (corresponding to out.dir in "R/cases_simstudy_roc.R")
-data_roc <- readr::read_csv2("E:/cases_SIM/cases_SIM_results/cases_SIM_ROC.csv")
+data_roc <- readr::read_csv2(file.path(in.dir, "cases_SIM_ROC.csv"))
 
 data_roc <- data_roc %>%
-  mutate(Adjustment = recode_factor(interaction(adjustment, pars),
-                                    "none.list()" = "none",
-                                    "bonferroni.list()"="Bonferroni", 
-                                    "maxt.list()" = "maxT",
-                                    "mbeta.list()" = "mBeta",
-                                    "bootstrap.list(type='wild')" = "Bootstrap (wild)",
-                                    "bootstrap.list()" = "Bootstrap (pairs)"))
-
+  mutate(Adjustment = recode_factor(
+    interaction(adjustment, pars),
+    "none.list()" = "none",
+    "bonferroni.list()"="Bonferroni", 
+    "maxt.list()" = "maxT",
+    "mbeta.list()" = "mBeta",
+    "bootstrap.list(type='wild')" = "Bootstrap (wild)",
+    "bootstrap.list()" = "Bootstrap (pairs)")
+  )
 
 dim(data_roc)
 
