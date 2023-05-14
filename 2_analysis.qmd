@@ -6,7 +6,7 @@ library(ggplot2)
 ```
 
 ```{r}
-knitr::opts_chunk$set(cache=TRUE)
+knitr::opts_chunk$set(cache=FALSE)
 ```
 
 
@@ -62,7 +62,7 @@ dim(data_lfc)
 data_lfc %>% 
   filter(n<1000, prev==0.25, se==0.8, m==10) %>%
   group_by(Adjustment, n, prev, se, m) %>%
-  summarize(nsim=n(), rr = mean(fp > 0)) %>%
+  summarize(nsim=n(), rr = mean(`0` > 0)) %>%
   ggplot(aes(n, rr, col=Adjustment, fill=Adjustment, pch=Adjustment))+
   geom_point(size=6, alpha=0.6) +
   geom_line(size=2, alpha=0.6) +
@@ -95,7 +95,7 @@ data_lfc %>%
 data_lfc %>% 
   filter(n<1000) %>%
   group_by(Adjustment, n, prev, se, m) %>%
-  summarize(nsim=n(), rr = mean(fp > 0)) %>%
+  summarize(nsim=n(), rr = mean(`0` > 0)) %>%
   ggplot(aes(n, rr, col=Adjustment, fill=Adjustment, pch=Adjustment))+
   geom_point(size=6, alpha=0.6) +
   geom_line(size=2, alpha=0.6) +
@@ -264,3 +264,124 @@ data_roc %>%
   facet_wrap(prev ~ m, ncol=2, 
              labeller = label_bquote("prev = " ~ .(prev) * ", " * "m = " ~ .(m)))
 ```
+
+
+## Simulation study 3: Further sensitivity analyses
+
+```{r}
+data_sens_lfc <- readr::read_csv2(file.path(in.dir, "cases_SIM_SENS_lfc.csv"))
+
+data_sens_lfc <- data_sens_lfc %>%
+  mutate(Adjustment = recode_factor(
+    interaction(adjustment, pars, drop = TRUE),
+    "none.list()" = "none",
+    "bonferroni.list()"="Bonferroni", 
+    "maxt.list()" = "maxT",
+    "mbeta.list()" = "mBeta (lfc_pr=1)",
+    "mbeta.list(lfc_pr=0.5)" = "mBeta (lfc_pr=0.5)",
+    "mbeta.list(lfc_pr=0)" = "mBeta (lfc_pr=0)",
+    "bootstrap.list(type='wild')" = "Bootstrap (wild)",
+    "bootstrap.list()" = "Bootstrap (pairs)") 
+  )
+
+dim(data_sens_lfc)
+```
+```{r}
+data_sens_roc <- readr::read_csv2(file.path(in.dir, "cases_SIM_SENS_roc.csv"))
+
+data_sens_roc <- data_sens_roc %>%
+  mutate(Adjustment = recode_factor(
+    interaction(adjustment, pars, drop = TRUE),
+    "none.list()" = "none",
+    "bonferroni.list()"="Bonferroni", 
+    "maxt.list()" = "maxT",
+    "mbeta.list()" = "mBeta (lfc_pr=1)",
+    "mbeta.list(lfc_pr=0.5)" = "mBeta (lfc_pr=0.5)",
+    "mbeta.list(lfc_pr=0)" = "mBeta (lfc_pr=0)",
+    "bootstrap.list(type='wild')" = "Bootstrap (wild)",
+    "bootstrap.list()" = "Bootstrap (pairs)") 
+  )
+
+dim(data_sens_roc)
+```
+
+### Bi-exponential ROC model
+
+In this sensitvity analysis, the data generating ROC model was altered to the a bi-exponential model instead of the default bi-normal model.
+
+```{r}
+data_sens_roc %>% 
+  filter(n<1000) %>%
+  filter(!(Adjustment %in% c("mBeta (lfc_pr=0.5)", "mBeta (lfc_pr=0)"))) %>% 
+  group_by(Adjustment, n, prev, m, dist) %>%
+  summarize(nsim=n(), rr = mean(`0` > 0)) %>%
+  ggplot(aes(n, rr, col=dist, fill=dist, pch=dist))+
+  geom_point(size=6, alpha=0.6) +
+  geom_line(size=2, alpha=0.6) +
+  xlab("Total sample size") +
+  ylab("FWER") +
+  geom_hline(yintercept=0.025, col="red", lwd=2, lty=2, alpha=0.75) +
+  owntheme +
+  facet_wrap(~ Adjustment, ncol=2)
+```
+
+The next plot presents the same data slighty differently.
+
+```{r}
+data_sens_roc %>% 
+  filter(n<1000) %>%
+  filter(!(Adjustment %in% c("mBeta (lfc_pr=0.5)", "mBeta (lfc_pr=0)"))) %>% 
+  group_by(Adjustment, n, prev, m, dist) %>%
+  summarize(nsim=n(), rr = mean(`0` > 0)) %>%
+  ggplot(aes(n, rr, col=Adjustment, fill=Adjustment, pch=Adjustment))+
+  geom_point(size=6, alpha=0.6) +
+  geom_line(size=2, alpha=0.6) +
+  xlab("Total sample size") +
+  ylab("FWER") +
+  geom_hline(yintercept=0.025, col="red", lwd=2, lty=2, alpha=0.75) +
+  owntheme +
+  facet_wrap(~ dist, ncol=1)
+```
+
+### Prior influence of mbeta adjustment
+
+The mBeta adjustment is a heuristic approach which builds on a Bayesian multivariate Beta-Binomial model. In this sensitivity analysis, the influence of the "lfc_pr' hyperparameter is investigated. It lies in the unit interval and controls if the prior distribution is solely a least-favorable parameter configuration (lfc_pr=1, default), a mixture distribution (lfc_pr=0.5) or solely a uniform distribution (lfc_pr=0). As we can see below, this parameter has a noticeable influence on operating characteristics as the FWER.
+
+
+```{r}
+data_sens_roc %>% 
+  filter(n<1000, dist=="normal") %>%
+  filter(Adjustment %in% c("none", "mBeta (lfc_pr=1)", "mBeta (lfc_pr=0.5)", "mBeta (lfc_pr=0)", "Bootstrap (pairs)")) %>% 
+  group_by(Adjustment, n, prev, m, dist) %>%
+  summarize(nsim=n(), rr = mean(`0` > 0)) %>%
+  ggplot(aes(n, rr, col=Adjustment, fill=Adjustment, pch=Adjustment))+
+  geom_point(size=6, alpha=0.6) +
+  geom_line(size=2, alpha=0.6) +
+  xlab("Total sample size") +
+  ylab("FWER") +
+  geom_hline(yintercept=0.025, col="red", lwd=2, lty=2, alpha=0.75) +
+  owntheme + 
+  guides(fill=guide_legend(nrow=2, byrow=TRUE),
+         col=guide_legend(nrow=2, byrow=TRUE),
+         pch=guide_legend(nrow=2, byrow=TRUE))
+```
+
+```{r}
+data_sens_lfc %>% 
+  filter(n<1000, se==0.8) %>%
+  filter(Adjustment %in% c("none", "mBeta (lfc_pr=1)", "mBeta (lfc_pr=0.5)", "mBeta (lfc_pr=0)", "Bootstrap (pairs)")) %>% 
+  group_by(Adjustment, n, prev, m, se) %>%
+  summarize(nsim=n(), rr = mean(`0` > 0)) %>%
+  ggplot(aes(n, rr, col=Adjustment, fill=Adjustment, pch=Adjustment))+
+  geom_point(size=6, alpha=0.6) +
+  geom_line(size=2, alpha=0.6) +
+  xlab("Total sample size") +
+  ylab("FWER") +
+  geom_hline(yintercept=0.025, col="red", lwd=2, lty=2, alpha=0.75) +
+  owntheme + 
+  guides(fill=guide_legend(nrow=2, byrow=TRUE),
+         col=guide_legend(nrow=2, byrow=TRUE),
+         pch=guide_legend(nrow=2, byrow=TRUE))
+```
+
+

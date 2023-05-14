@@ -184,6 +184,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#main-results-1" id="toc-main-results-1" class="nav-link" data-scroll-target="#main-results-1"> <span class="header-section-number">2.2.1</span> Main results</a></li>
   <li><a href="#sensitivity-analyses-1" id="toc-sensitivity-analyses-1" class="nav-link" data-scroll-target="#sensitivity-analyses-1"> <span class="header-section-number">2.2.2</span> Sensitivity analyses</a></li>
   </ul></li>
+  <li><a href="#simulation-study-3-further-sensitivity-analyses" id="toc-simulation-study-3-further-sensitivity-analyses" class="nav-link" data-scroll-target="#simulation-study-3-further-sensitivity-analyses"> <span class="header-section-number">2.3</span> Simulation study 3: Further sensitivity analyses</a>
+  <ul class="collapse">
+  <li><a href="#bi-exponential-roc-model" id="toc-bi-exponential-roc-model" class="nav-link" data-scroll-target="#bi-exponential-roc-model"> <span class="header-section-number">2.3.1</span> Bi-exponential ROC model</a></li>
+  <li><a href="#prior-influence-of-mbeta-adjustment" id="toc-prior-influence-of-mbeta-adjustment" class="nav-link" data-scroll-target="#prior-influence-of-mbeta-adjustment"> <span class="header-section-number">2.3.2</span> Prior influence of mbeta adjustment</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -207,7 +212,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </header>
 
 <div class="cell">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stderr">
 <pre><code>
 Attaching package: 'dplyr'</code></pre>
@@ -222,31 +230,46 @@ Attaching package: 'dplyr'</code></pre>
 
     intersect, setdiff, setequal, union</code></pre>
 </div>
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(<span class="at">cache=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(<span class="at">cache=</span><span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
-<div class="cell" data-hash="2_analysis_cache/html/ggplot2_theme_bdf6a9718ffa5879a65565cc41dd6ecc">
+<div class="cell">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>owntheme <span class="ot">&lt;-</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>,</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">title=</span><span class="fu">element_text</span>(<span class="at">face=</span><span class="st">"bold"</span>, <span class="at">size=</span><span class="dv">24</span>),</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">face=</span><span class="st">"bold"</span>, <span class="at">size=</span><span class="dv">20</span>),</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">face=</span><span class="st">"plain"</span>, <span class="at">size=</span><span class="dv">20</span>),</span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">legend.title =</span> <span class="fu">element_blank</span>(), </span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">16</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
-<div class="cell" data-hash="2_analysis_cache/html/unnamed-chunk-2_9d389929bed8396220aee0d6fd8ee691">
+<div class="cell">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="do">## set input dir, needs to be equal to out.dir from</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="do">## cases_simstudy_lfc.R and cases_simstudy_roc.R:</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>in.dir <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">"E:/cases_SIM/cases_SIM_results"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <p><strong>For local reproduction, the input directory potentially needs to be adapted!</strong></p>
 <section id="simulation-study-1-lfc-setting" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="simulation-study-1-lfc-setting"><span class="header-section-number">2.1</span> Simulation study 1: LFC setting</h2>
 <section id="main-results" class="level3" data-number="2.1.1">
 <h3 data-number="2.1.1" class="anchored" data-anchor-id="main-results"><span class="header-section-number">2.1.1</span> Main results</h3>
-<div class="cell" data-hash="2_analysis_cache/html/load_data_lfc_ff8f93e96008b03f93998dd37a815c58">
+<div class="cell">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>data_lfc <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv2</span>(<span class="fu">file.path</span>(in.dir, <span class="st">"cases_SIM_LFC.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stderr">
 <pre><code>ℹ Using "','" as decimal and "'.'" as grouping mark. Use `read_delim()` for more control.</code></pre>
 </div>
@@ -261,6 +284,8 @@ lgl  (1): random
 ℹ Use `spec()` to retrieve the full column specification for this data.
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>data_lfc <span class="ot">&lt;-</span> data_lfc <span class="sc">%&gt;%</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Adjustment =</span> <span class="fu">recode_factor</span>(</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">interaction</span>(adjustment, pars),</span>
@@ -273,26 +298,32 @@ lgl  (1): random
 <span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(data_lfc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2800000      62</code></pre>
 </div>
 </div>
-<div class="cell" data-hash="2_analysis_cache/html/unnamed-chunk-3_1bf8838239222224f75f4d0e13c6a93e">
+<div class="cell">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>data_lfc <span class="ot">&lt;-</span> data_lfc <span class="sc">%&gt;%</span> </span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(cortype <span class="sc">==</span> <span class="st">"equi"</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(rhose <span class="sc">==</span> <span class="fl">0.5</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(transformation <span class="sc">==</span> <span class="st">"none"</span>) </span>
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(data_lfc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2400000      62</code></pre>
 </div>
 </div>
-<div class="cell" data-hash="2_analysis_cache/html/results_lfc_fwer_main_2d92ce7353fe8cad6fe4b5ea2a200b1b">
+<div class="cell">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>data_lfc <span class="sc">%&gt;%</span> </span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n<span class="sc">&lt;</span><span class="dv">1000</span>, prev<span class="sc">==</span><span class="fl">0.25</span>, se<span class="sc">==</span><span class="fl">0.8</span>, m<span class="sc">==</span><span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Adjustment, n, prev, se, m) <span class="sc">%&gt;%</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">nsim=</span><span class="fu">n</span>(), <span class="at">rr =</span> <span class="fu">mean</span>(fp <span class="sc">&gt;</span> <span class="dv">0</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">nsim=</span><span class="fu">n</span>(), <span class="at">rr =</span> <span class="fu">mean</span>(<span class="st">`</span><span class="at">0</span><span class="st">`</span> <span class="sc">&gt;</span> <span class="dv">0</span>)) <span class="sc">%&gt;%</span></span>
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(n, rr, <span class="at">col=</span>Adjustment, <span class="at">fill=</span>Adjustment, <span class="at">pch=</span>Adjustment))<span class="sc">+</span></span>
 <span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span><span class="dv">6</span>, <span class="at">alpha=</span><span class="fl">0.6</span>) <span class="sc">+</span></span>
 <span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="dv">2</span>, <span class="at">alpha=</span><span class="fl">0.6</span>) <span class="sc">+</span></span>
@@ -301,6 +332,7 @@ lgl  (1): random
 <span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="dv">21</span>, <span class="dv">22</span>, <span class="dv">24</span>, <span class="dv">25</span>, <span class="dv">23</span>, <span class="dv">23</span>)) <span class="sc">+</span></span>
 <span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept=</span><span class="fl">0.025</span>, <span class="at">col=</span><span class="st">"red"</span>, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">lty=</span><span class="dv">2</span>, <span class="at">alpha=</span><span class="fl">0.75</span>) <span class="sc">+</span></span>
 <span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  owntheme</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stderr">
 <pre><code>`summarise()` has grouped output by 'Adjustment', 'n', 'prev', 'se'. You can
 override using the `.groups` argument.</code></pre>
@@ -309,7 +341,9 @@ override using the `.groups` argument.</code></pre>
 <p><img src="2_analysis_files/figure-html/results_lfc_fwer_main-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<div class="cell" data-hash="2_analysis_cache/html/results_lfc_power_main_a4593c081325e2c41e98ab51ae47c927">
+<div class="cell">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>data_lfc <span class="sc">%&gt;%</span> </span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n<span class="sc">&lt;</span><span class="dv">1000</span>, prev<span class="sc">==</span><span class="fl">0.25</span>, se<span class="sc">==</span><span class="fl">0.8</span>, m<span class="sc">==</span><span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Adjustment, n, prev, se, m) <span class="sc">%&gt;%</span></span>
@@ -321,6 +355,7 @@ override using the `.groups` argument.</code></pre>
 <span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Power"</span>) <span class="sc">+</span> </span>
 <span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="dv">21</span>, <span class="dv">22</span>, <span class="dv">24</span>, <span class="dv">25</span>, <span class="dv">23</span>, <span class="dv">23</span>)) <span class="sc">+</span></span>
 <span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>  owntheme</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stderr">
 <pre><code>`summarise()` has grouped output by 'Adjustment', 'n', 'prev', 'se'. You can
 override using the `.groups` argument.</code></pre>
@@ -332,11 +367,13 @@ override using the `.groups` argument.</code></pre>
 </section>
 <section id="sensitivity-analyses" class="level3" data-number="2.1.2">
 <h3 data-number="2.1.2" class="anchored" data-anchor-id="sensitivity-analyses"><span class="header-section-number">2.1.2</span> Sensitivity analyses</h3>
-<div class="cell" data-fig.asp="2" data-hash="2_analysis_cache/html/results_lfc_fwer_sens_902fccae7d90826d3ef2ac1197946f5b">
+<div class="cell" data-fig.asp="2">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>data_lfc <span class="sc">%&gt;%</span> </span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n<span class="sc">&lt;</span><span class="dv">1000</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Adjustment, n, prev, se, m) <span class="sc">%&gt;%</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">nsim=</span><span class="fu">n</span>(), <span class="at">rr =</span> <span class="fu">mean</span>(fp <span class="sc">&gt;</span> <span class="dv">0</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">nsim=</span><span class="fu">n</span>(), <span class="at">rr =</span> <span class="fu">mean</span>(<span class="st">`</span><span class="at">0</span><span class="st">`</span> <span class="sc">&gt;</span> <span class="dv">0</span>)) <span class="sc">%&gt;%</span></span>
 <span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(n, rr, <span class="at">col=</span>Adjustment, <span class="at">fill=</span>Adjustment, <span class="at">pch=</span>Adjustment))<span class="sc">+</span></span>
 <span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span><span class="dv">6</span>, <span class="at">alpha=</span><span class="fl">0.6</span>) <span class="sc">+</span></span>
 <span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="dv">2</span>, <span class="at">alpha=</span><span class="fl">0.6</span>) <span class="sc">+</span></span>
@@ -347,6 +384,7 @@ override using the `.groups` argument.</code></pre>
 <span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>  owntheme <span class="sc">+</span></span>
 <span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(prev<span class="sc">+</span>se <span class="sc">~</span> m, <span class="at">ncol=</span><span class="dv">2</span>, </span>
 <span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>             <span class="at">labeller =</span> <span class="fu">label_bquote</span>(<span class="st">"prev = "</span> <span class="sc">~</span> .(prev) <span class="sc">*</span> <span class="st">", "</span> <span class="sc">*</span> <span class="st">"se = "</span> <span class="sc">~</span> .(se) <span class="sc">*</span> <span class="st">", "</span> <span class="sc">*</span> <span class="st">"m = "</span> <span class="sc">~</span> .(m)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stderr">
 <pre><code>`summarise()` has grouped output by 'Adjustment', 'n', 'prev', 'se'. You can
 override using the `.groups` argument.</code></pre>
@@ -355,7 +393,9 @@ override using the `.groups` argument.</code></pre>
 <p><img src="2_analysis_files/figure-html/results_lfc_fwer_sens-1.png" class="img-fluid" style="width:100.0%"></p>
 </div>
 </div>
-<div class="cell" data-fig.asp="2" data-hash="2_analysis_cache/html/lfc_power_sens_a_dfa85f4944d6183080c2ab13b052f252">
+<div class="cell" data-fig.asp="2">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>data_lfc <span class="sc">%&gt;%</span> </span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n<span class="sc">&lt;</span><span class="dv">1000</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Adjustment, n, prev, se, m) <span class="sc">%&gt;%</span></span>
@@ -369,6 +409,7 @@ override using the `.groups` argument.</code></pre>
 <span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>  owntheme <span class="sc">+</span></span>
 <span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(prev<span class="sc">+</span>se <span class="sc">~</span> m, <span class="at">ncol=</span><span class="dv">2</span>, </span>
 <span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>             <span class="at">labeller =</span> <span class="fu">label_bquote</span>(<span class="st">"prev = "</span> <span class="sc">~</span> .(prev) <span class="sc">*</span> <span class="st">", "</span> <span class="sc">*</span> <span class="st">"se = "</span> <span class="sc">~</span> .(se) <span class="sc">*</span> <span class="st">", "</span> <span class="sc">*</span> <span class="st">"m = "</span> <span class="sc">~</span> .(m)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stderr">
 <pre><code>`summarise()` has grouped output by 'Adjustment', 'n', 'prev', 'se'. You can
 override using the `.groups` argument.</code></pre>
@@ -377,7 +418,9 @@ override using the `.groups` argument.</code></pre>
 <p><img src="2_analysis_files/figure-html/lfc_power_sens_a-1.png" class="img-fluid" style="width:100.0%"></p>
 </div>
 </div>
-<div class="cell" data-fig.asp="2" data-hash="2_analysis_cache/html/lfc_power_sens_b_fba31d1839cabd94c2abf55d3253f796">
+<div class="cell" data-fig.asp="2">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>data_lfc <span class="sc">%&gt;%</span> </span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n<span class="sc">&lt;</span><span class="dv">1000</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Adjustment, n, prev, se, m) <span class="sc">%&gt;%</span></span>
@@ -391,6 +434,7 @@ override using the `.groups` argument.</code></pre>
 <span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>  owntheme <span class="sc">+</span></span>
 <span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(prev<span class="sc">+</span>se <span class="sc">~</span> m, <span class="at">ncol=</span><span class="dv">2</span>, </span>
 <span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>             <span class="at">labeller =</span> <span class="fu">label_bquote</span>(<span class="st">"prev = "</span> <span class="sc">~</span> .(prev) <span class="sc">*</span> <span class="st">", "</span> <span class="sc">*</span> <span class="st">"se = "</span> <span class="sc">~</span> .(se) <span class="sc">*</span> <span class="st">", "</span> <span class="sc">*</span> <span class="st">"m = "</span> <span class="sc">~</span> .(m)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stderr">
 <pre><code>`summarise()` has grouped output by 'Adjustment', 'n', 'prev', 'se'. You can
 override using the `.groups` argument.</code></pre>
@@ -406,7 +450,10 @@ override using the `.groups` argument.</code></pre>
 <section id="main-results-1" class="level3" data-number="2.2.1">
 <h3 data-number="2.2.1" class="anchored" data-anchor-id="main-results-1"><span class="header-section-number">2.2.1</span> Main results</h3>
 <div class="cell">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>data_roc <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv2</span>(<span class="fu">file.path</span>(in.dir, <span class="st">"cases_SIM_ROC.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stderr">
 <pre><code>ℹ Using "','" as decimal and "'.'" as grouping mark. Use `read_delim()` for more control.</code></pre>
 </div>
@@ -421,6 +468,8 @@ lgl  (1): random
 ℹ Use `spec()` to retrieve the full column specification for this data.
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>data_roc <span class="ot">&lt;-</span> data_roc <span class="sc">%&gt;%</span></span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Adjustment =</span> <span class="fu">recode_factor</span>(</span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">interaction</span>(adjustment, pars),</span>
@@ -433,22 +482,28 @@ lgl  (1): random
 <span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(data_roc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 3600000      62</code></pre>
 </div>
 </div>
-<div class="cell" data-hash="2_analysis_cache/html/data_preproc_roc_7ea3f05d67801104ef40193b36b63768">
+<div class="cell">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>data_roc <span class="ot">&lt;-</span> data_roc <span class="sc">%&gt;%</span> </span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(rhose <span class="sc">==</span> <span class="fl">0.5</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(auc <span class="sc">==</span> <span class="st">"seq(0.85, 0.90, length.out = 5)"</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(transformation <span class="sc">==</span> <span class="st">"none"</span>) </span>
 <span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(data_roc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1200000      62</code></pre>
 </div>
 </div>
-<div class="cell" data-hash="2_analysis_cache/html/results_roc_fwer_main_170ae6aa62a4f06759ef06a4fa9975d2">
+<div class="cell">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>data_roc <span class="sc">%&gt;%</span> </span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n<span class="sc">&lt;</span><span class="dv">1000</span>, prev<span class="sc">==</span><span class="fl">0.25</span>, m<span class="sc">==</span><span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Adjustment, n, prev, m) <span class="sc">%&gt;%</span></span>
@@ -461,6 +516,7 @@ lgl  (1): random
 <span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="dv">21</span>, <span class="dv">22</span>, <span class="dv">24</span>, <span class="dv">25</span>, <span class="dv">23</span>, <span class="dv">23</span>)) <span class="sc">+</span></span>
 <span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept=</span><span class="fl">0.025</span>, <span class="at">col=</span><span class="st">"red"</span>, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">lty=</span><span class="dv">2</span>, <span class="at">alpha=</span><span class="fl">0.75</span>) <span class="sc">+</span></span>
 <span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>  owntheme </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stderr">
 <pre><code>`summarise()` has grouped output by 'Adjustment', 'n', 'prev'. You can override
 using the `.groups` argument.</code></pre>
@@ -469,7 +525,9 @@ using the `.groups` argument.</code></pre>
 <p><img src="2_analysis_files/figure-html/results_roc_fwer_main-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<div class="cell" data-hash="2_analysis_cache/html/results_roc_power_main_ef3e366209f022c52e58ba5e88093c42">
+<div class="cell">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>data_roc <span class="sc">%&gt;%</span> </span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n<span class="sc">&lt;</span><span class="dv">1000</span>, prev<span class="sc">==</span><span class="fl">0.25</span>, m<span class="sc">==</span><span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Adjustment, n, prev, m) <span class="sc">%&gt;%</span></span>
@@ -481,6 +539,7 @@ using the `.groups` argument.</code></pre>
 <span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Power"</span>) <span class="sc">+</span> </span>
 <span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="dv">21</span>, <span class="dv">22</span>, <span class="dv">24</span>, <span class="dv">25</span>, <span class="dv">23</span>, <span class="dv">23</span>)) <span class="sc">+</span></span>
 <span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>  owntheme </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stderr">
 <pre><code>`summarise()` has grouped output by 'Adjustment', 'n', 'prev'. You can override
 using the `.groups` argument.</code></pre>
@@ -492,7 +551,9 @@ using the `.groups` argument.</code></pre>
 </section>
 <section id="sensitivity-analyses-1" class="level3" data-number="2.2.2">
 <h3 data-number="2.2.2" class="anchored" data-anchor-id="sensitivity-analyses-1"><span class="header-section-number">2.2.2</span> Sensitivity analyses</h3>
-<div class="cell" data-fig.asp="1" data-hash="2_analysis_cache/html/results_roc_fwer_sens_818910af83f46837ba2dc576bb815b59">
+<div class="cell" data-fig.asp="1">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>data_roc <span class="sc">%&gt;%</span> </span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n<span class="sc">&lt;</span><span class="dv">1000</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Adjustment, n, prev, m) <span class="sc">%&gt;%</span></span>
@@ -507,6 +568,7 @@ using the `.groups` argument.</code></pre>
 <span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>  owntheme <span class="sc">+</span></span>
 <span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(prev <span class="sc">~</span> m, <span class="at">ncol=</span><span class="dv">2</span>, </span>
 <span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>             <span class="at">labeller =</span> <span class="fu">label_bquote</span>(<span class="st">"prev = "</span> <span class="sc">~</span> .(prev) <span class="sc">*</span> <span class="st">", "</span> <span class="sc">*</span> <span class="st">"m = "</span> <span class="sc">~</span> .(m)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stderr">
 <pre><code>`summarise()` has grouped output by 'Adjustment', 'n', 'prev'. You can override
 using the `.groups` argument.</code></pre>
@@ -515,7 +577,9 @@ using the `.groups` argument.</code></pre>
 <p><img src="2_analysis_files/figure-html/results_roc_fwer_sens-1.png" class="img-fluid" style="width:100.0%"></p>
 </div>
 </div>
-<div class="cell" data-fig.asp="1" data-hash="2_analysis_cache/html/results_roc_power_sens_a_936a1746987ae9942434ecf0870b8fa6">
+<div class="cell" data-fig.asp="1">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>data_roc <span class="sc">%&gt;%</span> </span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n<span class="sc">&lt;</span><span class="dv">1000</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Adjustment, n, prev, m) <span class="sc">%&gt;%</span></span>
@@ -529,6 +593,7 @@ using the `.groups` argument.</code></pre>
 <span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>  owntheme <span class="sc">+</span></span>
 <span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(prev <span class="sc">~</span> m, <span class="at">ncol=</span><span class="dv">2</span>, </span>
 <span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a>             <span class="at">labeller =</span> <span class="fu">label_bquote</span>(<span class="st">"prev = "</span> <span class="sc">~</span> .(prev) <span class="sc">*</span> <span class="st">", "</span> <span class="sc">*</span> <span class="st">"m = "</span> <span class="sc">~</span> .(m)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stderr">
 <pre><code>`summarise()` has grouped output by 'Adjustment', 'n', 'prev'. You can override
 using the `.groups` argument.</code></pre>
@@ -537,7 +602,9 @@ using the `.groups` argument.</code></pre>
 <p><img src="2_analysis_files/figure-html/results_roc_power_sens_a-1.png" class="img-fluid" style="width:100.0%"></p>
 </div>
 </div>
-<div class="cell" data-fig.asp="1" data-hash="2_analysis_cache/html/results_roc_power_sens_b_effa7dab07312bea97cb4ec37cc80346">
+<div class="cell" data-fig.asp="1">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>data_roc <span class="sc">%&gt;%</span> </span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n<span class="sc">&lt;</span><span class="dv">1000</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Adjustment, n, prev, m) <span class="sc">%&gt;%</span></span>
@@ -551,12 +618,209 @@ using the `.groups` argument.</code></pre>
 <span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>  owntheme <span class="sc">+</span></span>
 <span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(prev <span class="sc">~</span> m, <span class="at">ncol=</span><span class="dv">2</span>, </span>
 <span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>             <span class="at">labeller =</span> <span class="fu">label_bquote</span>(<span class="st">"prev = "</span> <span class="sc">~</span> .(prev) <span class="sc">*</span> <span class="st">", "</span> <span class="sc">*</span> <span class="st">"m = "</span> <span class="sc">~</span> .(m)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stderr">
 <pre><code>`summarise()` has grouped output by 'Adjustment', 'n', 'prev'. You can override
 using the `.groups` argument.</code></pre>
 </div>
 <div class="cell-output-display">
 <p><img src="2_analysis_files/figure-html/results_roc_power_sens_b-1.png" class="img-fluid" style="width:100.0%"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="simulation-study-3-further-sensitivity-analyses" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="simulation-study-3-further-sensitivity-analyses"><span class="header-section-number">2.3</span> Simulation study 3: Further sensitivity analyses</h2>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>data_sens_lfc <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv2</span>(<span class="fu">file.path</span>(in.dir, <span class="st">"cases_SIM_SENS_lfc.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>ℹ Using "','" as decimal and "'.'" as grouping mark. Use `read_delim()` for more control.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 400000 Columns: 61
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ";"
+chr (10): problem, algorithm, cortype, contrast, alternative, adjustment, tr...
+dbl (50): job.id, nrep, n, prev, m, se, sp, L, rhose, rhosp, benchmark, alph...
+lgl  (1): random
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>data_sens_lfc <span class="ot">&lt;-</span> data_sens_lfc <span class="sc">%&gt;%</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Adjustment =</span> <span class="fu">recode_factor</span>(</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">interaction</span>(adjustment, pars, <span class="at">drop =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"none.list()"</span> <span class="ot">=</span> <span class="st">"none"</span>,</span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"bonferroni.list()"</span><span class="ot">=</span><span class="st">"Bonferroni"</span>, </span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"maxt.list()"</span> <span class="ot">=</span> <span class="st">"maxT"</span>,</span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"mbeta.list()"</span> <span class="ot">=</span> <span class="st">"mBeta (lfc_pr=1)"</span>,</span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"mbeta.list(lfc_pr=0.5)"</span> <span class="ot">=</span> <span class="st">"mBeta (lfc_pr=0.5)"</span>,</span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"mbeta.list(lfc_pr=0)"</span> <span class="ot">=</span> <span class="st">"mBeta (lfc_pr=0)"</span>,</span>
+<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"bootstrap.list(type='wild')"</span> <span class="ot">=</span> <span class="st">"Bootstrap (wild)"</span>,</span>
+<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"bootstrap.list()"</span> <span class="ot">=</span> <span class="st">"Bootstrap (pairs)"</span>) </span>
+<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb46-13"><a href="#cb46-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-14"><a href="#cb46-14" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(data_sens_lfc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 400000     62</code></pre>
+</div>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>data_sens_roc <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv2</span>(<span class="fu">file.path</span>(in.dir, <span class="st">"cases_SIM_SENS_roc.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>ℹ Using "','" as decimal and "'.'" as grouping mark. Use `read_delim()` for more control.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 800000 Columns: 62
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ";"
+chr (11): problem, algorithm, auc, dist, contrast, alternative, adjustment, ...
+dbl (50): job.id, nrep, n, prev, m, rhose, e, k, delta, rhosp, benchmark, al...
+lgl  (1): random
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>data_sens_roc <span class="ot">&lt;-</span> data_sens_roc <span class="sc">%&gt;%</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Adjustment =</span> <span class="fu">recode_factor</span>(</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">interaction</span>(adjustment, pars, <span class="at">drop =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"none.list()"</span> <span class="ot">=</span> <span class="st">"none"</span>,</span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"bonferroni.list()"</span><span class="ot">=</span><span class="st">"Bonferroni"</span>, </span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"maxt.list()"</span> <span class="ot">=</span> <span class="st">"maxT"</span>,</span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"mbeta.list()"</span> <span class="ot">=</span> <span class="st">"mBeta (lfc_pr=1)"</span>,</span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"mbeta.list(lfc_pr=0.5)"</span> <span class="ot">=</span> <span class="st">"mBeta (lfc_pr=0.5)"</span>,</span>
+<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"mbeta.list(lfc_pr=0)"</span> <span class="ot">=</span> <span class="st">"mBeta (lfc_pr=0)"</span>,</span>
+<span id="cb51-10"><a href="#cb51-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"bootstrap.list(type='wild')"</span> <span class="ot">=</span> <span class="st">"Bootstrap (wild)"</span>,</span>
+<span id="cb51-11"><a href="#cb51-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"bootstrap.list()"</span> <span class="ot">=</span> <span class="st">"Bootstrap (pairs)"</span>) </span>
+<span id="cb51-12"><a href="#cb51-12" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb51-13"><a href="#cb51-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-14"><a href="#cb51-14" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(data_sens_roc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 800000     63</code></pre>
+</div>
+</div>
+<section id="bi-exponential-roc-model" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="bi-exponential-roc-model"><span class="header-section-number">2.3.1</span> Bi-exponential ROC model</h3>
+<p>In this sensitvity analysis, the data generating ROC model was altered to the a bi-exponential model instead of the default bi-normal model.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>data_sens_roc <span class="sc">%&gt;%</span> </span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n<span class="sc">&lt;</span><span class="dv">1000</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>(Adjustment <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"mBeta (lfc_pr=0.5)"</span>, <span class="st">"mBeta (lfc_pr=0)"</span>))) <span class="sc">%&gt;%</span> </span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Adjustment, n, prev, m, dist) <span class="sc">%&gt;%</span></span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">nsim=</span><span class="fu">n</span>(), <span class="at">rr =</span> <span class="fu">mean</span>(<span class="st">`</span><span class="at">0</span><span class="st">`</span> <span class="sc">&gt;</span> <span class="dv">0</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(n, rr, <span class="at">col=</span>dist, <span class="at">fill=</span>dist, <span class="at">pch=</span>dist))<span class="sc">+</span></span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span><span class="dv">6</span>, <span class="at">alpha=</span><span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="dv">2</span>, <span class="at">alpha=</span><span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Total sample size"</span>) <span class="sc">+</span></span>
+<span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"FWER"</span>) <span class="sc">+</span></span>
+<span id="cb53-11"><a href="#cb53-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept=</span><span class="fl">0.025</span>, <span class="at">col=</span><span class="st">"red"</span>, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">lty=</span><span class="dv">2</span>, <span class="at">alpha=</span><span class="fl">0.75</span>) <span class="sc">+</span></span>
+<span id="cb53-12"><a href="#cb53-12" aria-hidden="true" tabindex="-1"></a>  owntheme <span class="sc">+</span></span>
+<span id="cb53-13"><a href="#cb53-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> Adjustment, <span class="at">ncol=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'Adjustment', 'n', 'prev', 'm'. You can
+override using the `.groups` argument.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="2_analysis_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The next plot presents the same data slighty differently.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>data_sens_roc <span class="sc">%&gt;%</span> </span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n<span class="sc">&lt;</span><span class="dv">1000</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>(Adjustment <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"mBeta (lfc_pr=0.5)"</span>, <span class="st">"mBeta (lfc_pr=0)"</span>))) <span class="sc">%&gt;%</span> </span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Adjustment, n, prev, m, dist) <span class="sc">%&gt;%</span></span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">nsim=</span><span class="fu">n</span>(), <span class="at">rr =</span> <span class="fu">mean</span>(<span class="st">`</span><span class="at">0</span><span class="st">`</span> <span class="sc">&gt;</span> <span class="dv">0</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(n, rr, <span class="at">col=</span>Adjustment, <span class="at">fill=</span>Adjustment, <span class="at">pch=</span>Adjustment))<span class="sc">+</span></span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span><span class="dv">6</span>, <span class="at">alpha=</span><span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="dv">2</span>, <span class="at">alpha=</span><span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Total sample size"</span>) <span class="sc">+</span></span>
+<span id="cb55-10"><a href="#cb55-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"FWER"</span>) <span class="sc">+</span></span>
+<span id="cb55-11"><a href="#cb55-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept=</span><span class="fl">0.025</span>, <span class="at">col=</span><span class="st">"red"</span>, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">lty=</span><span class="dv">2</span>, <span class="at">alpha=</span><span class="fl">0.75</span>) <span class="sc">+</span></span>
+<span id="cb55-12"><a href="#cb55-12" aria-hidden="true" tabindex="-1"></a>  owntheme <span class="sc">+</span></span>
+<span id="cb55-13"><a href="#cb55-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> dist, <span class="at">ncol=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'Adjustment', 'n', 'prev', 'm'. You can
+override using the `.groups` argument.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="2_analysis_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="prior-influence-of-mbeta-adjustment" class="level3" data-number="2.3.2">
+<h3 data-number="2.3.2" class="anchored" data-anchor-id="prior-influence-of-mbeta-adjustment"><span class="header-section-number">2.3.2</span> Prior influence of mbeta adjustment</h3>
+<p>The mBeta adjustment is a heuristic approach which builds on a Bayesian multivariate Beta-Binomial model. In this sensitivity analysis, the influence of the “lfc_pr’ hyperparameter is investigated. It lies in the unit interval and controls if the prior distribution is solely a least-favorable parameter configuration (lfc_pr=1, default), a mixture distribution (lfc_pr=0.5) or solely a uniform distribution (lfc_pr=0). As we can see below, this parameter has a noticeable influence on operating characteristics as the FWER.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>data_sens_roc <span class="sc">%&gt;%</span> </span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n<span class="sc">&lt;</span><span class="dv">1000</span>, dist<span class="sc">==</span><span class="st">"normal"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Adjustment <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"none"</span>, <span class="st">"mBeta (lfc_pr=1)"</span>, <span class="st">"mBeta (lfc_pr=0.5)"</span>, <span class="st">"mBeta (lfc_pr=0)"</span>, <span class="st">"Bootstrap (pairs)"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Adjustment, n, prev, m, dist) <span class="sc">%&gt;%</span></span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">nsim=</span><span class="fu">n</span>(), <span class="at">rr =</span> <span class="fu">mean</span>(<span class="st">`</span><span class="at">0</span><span class="st">`</span> <span class="sc">&gt;</span> <span class="dv">0</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(n, rr, <span class="at">col=</span>Adjustment, <span class="at">fill=</span>Adjustment, <span class="at">pch=</span>Adjustment))<span class="sc">+</span></span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span><span class="dv">6</span>, <span class="at">alpha=</span><span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="dv">2</span>, <span class="at">alpha=</span><span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Total sample size"</span>) <span class="sc">+</span></span>
+<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"FWER"</span>) <span class="sc">+</span></span>
+<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept=</span><span class="fl">0.025</span>, <span class="at">col=</span><span class="st">"red"</span>, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">lty=</span><span class="dv">2</span>, <span class="at">alpha=</span><span class="fl">0.75</span>) <span class="sc">+</span></span>
+<span id="cb57-12"><a href="#cb57-12" aria-hidden="true" tabindex="-1"></a>  owntheme <span class="sc">+</span> </span>
+<span id="cb57-13"><a href="#cb57-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill=</span><span class="fu">guide_legend</span>(<span class="at">nrow=</span><span class="dv">2</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>),</span>
+<span id="cb57-14"><a href="#cb57-14" aria-hidden="true" tabindex="-1"></a>         <span class="at">col=</span><span class="fu">guide_legend</span>(<span class="at">nrow=</span><span class="dv">2</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>),</span>
+<span id="cb57-15"><a href="#cb57-15" aria-hidden="true" tabindex="-1"></a>         <span class="at">pch=</span><span class="fu">guide_legend</span>(<span class="at">nrow=</span><span class="dv">2</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'Adjustment', 'n', 'prev', 'm'. You can
+override using the `.groups` argument.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="2_analysis_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>data_sens_lfc <span class="sc">%&gt;%</span> </span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n<span class="sc">&lt;</span><span class="dv">1000</span>, se<span class="sc">==</span><span class="fl">0.8</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Adjustment <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"none"</span>, <span class="st">"mBeta (lfc_pr=1)"</span>, <span class="st">"mBeta (lfc_pr=0.5)"</span>, <span class="st">"mBeta (lfc_pr=0)"</span>, <span class="st">"Bootstrap (pairs)"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Adjustment, n, prev, m, se) <span class="sc">%&gt;%</span></span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">nsim=</span><span class="fu">n</span>(), <span class="at">rr =</span> <span class="fu">mean</span>(<span class="st">`</span><span class="at">0</span><span class="st">`</span> <span class="sc">&gt;</span> <span class="dv">0</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(n, rr, <span class="at">col=</span>Adjustment, <span class="at">fill=</span>Adjustment, <span class="at">pch=</span>Adjustment))<span class="sc">+</span></span>
+<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span><span class="dv">6</span>, <span class="at">alpha=</span><span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb59-8"><a href="#cb59-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="dv">2</span>, <span class="at">alpha=</span><span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb59-9"><a href="#cb59-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Total sample size"</span>) <span class="sc">+</span></span>
+<span id="cb59-10"><a href="#cb59-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"FWER"</span>) <span class="sc">+</span></span>
+<span id="cb59-11"><a href="#cb59-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept=</span><span class="fl">0.025</span>, <span class="at">col=</span><span class="st">"red"</span>, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">lty=</span><span class="dv">2</span>, <span class="at">alpha=</span><span class="fl">0.75</span>) <span class="sc">+</span></span>
+<span id="cb59-12"><a href="#cb59-12" aria-hidden="true" tabindex="-1"></a>  owntheme <span class="sc">+</span> </span>
+<span id="cb59-13"><a href="#cb59-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill=</span><span class="fu">guide_legend</span>(<span class="at">nrow=</span><span class="dv">2</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>),</span>
+<span id="cb59-14"><a href="#cb59-14" aria-hidden="true" tabindex="-1"></a>         <span class="at">col=</span><span class="fu">guide_legend</span>(<span class="at">nrow=</span><span class="dv">2</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>),</span>
+<span id="cb59-15"><a href="#cb59-15" aria-hidden="true" tabindex="-1"></a>         <span class="at">pch=</span><span class="fu">guide_legend</span>(<span class="at">nrow=</span><span class="dv">2</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'Adjustment', 'n', 'prev', 'm'. You can
+override using the `.groups` argument.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="2_analysis_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 
