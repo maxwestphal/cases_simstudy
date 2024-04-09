@@ -22,7 +22,7 @@ owntheme <- theme(legend.position = "bottom",
 ```{r}
 ## set input dir, needs to be equal to out.dir from
 ## cases_simstudy_lfc.R and cases_simstudy_roc.R:
-in.dir <- file.path("E:/cases_SIM/cases_SIM_results")
+in.dir <- file.path("E:/cases_simstudy/cases_sim_results")
 ```
 
 **For local reproduction, the input directory potentially needs to be adapted!**
@@ -269,6 +269,9 @@ data_roc %>%
 ## Simulation study 3: Further sensitivity analyses
 
 ```{r}
+
+in.dir <- file.path("E:/cases_SIM/cases_SIM_results") # TODO: remove
+
 data_sens_lfc <- readr::read_csv2(file.path(in.dir, "cases_SIM_SENS_lfc.csv"))
 
 data_sens_lfc <- data_sens_lfc %>%

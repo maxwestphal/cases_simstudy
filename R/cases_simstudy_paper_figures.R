@@ -28,7 +28,7 @@ library(cases)
 
 ## set input dir, needs to be equal to out.dir from
 ## cases_simstudy_lfc.R and cases_simstudy_roc.R:
-in.dir <- file.path("E:/cases_SIM/cases_SIM_results")
+in.dir <- file.path("E:/cases_simstudy/cases_sim_results")
 
 ## directory where figures are saved:
 fig.dir <- file.path("figures")
@@ -227,11 +227,12 @@ comp_bm <- data %>%
   cases::categorize(cc, rep(1:3, each=5)) %>% 
   cases::compare(labels = as.numeric(as.character(data$diagnosis)))
 
+set.seed(1337)
 results_bm <- cases::evaluate(comp_bm, benchmark = benchmark,
                               alternative = "greater", alpha = 0.025,
-                              adj="boot", regu=1, ) 
+                              adj="boot", regu=1) 
 
-visualize(results_bm)
+cases::visualize(results_bm)
 ## Figure 4.a:
 ggsave("cases_example_rwd_bm.jpg", path = fig.dir, width = fig.width, height = fig.height,
        units="px", device='jpg', dpi=300)
@@ -273,7 +274,7 @@ results_pm <- cases::evaluate(comp_pm, benchmark = benchmark,
                               alternative = "greater", alpha = 0.025,
                               adj="boot", regu=1) 
 
-visualize(results_pm)
+cases::visualize(results_pm)
 ## Figure 4.b:
 ggsave("cases_example_rwd_pm.jpg", path = fig.dir, width = fig.width, height = fig.height,
        units="px", device='jpg', dpi=300)

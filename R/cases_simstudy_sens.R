@@ -30,15 +30,15 @@ library(tictoc)
 # rm(list = ls())                           
 
 ## simulation name:
-sim <- "cases_SIM_SENS"                            
+sim <- "cases_sim_sens"                            
 nsim <- 100                 
 cr <- 0.8                                 
 req.packages <- c("cases") 
 
 ## setup folders: 
-main.dir <- file.path("E:/cases_SIM")              
+main.dir <- file.path("E:/cases_simstudy")              
 reg.dir <- file.path(main.dir, sim)  
-out.dir <- file.path(main.dir, "cases_SIM_results")
+out.dir <- file.path(main.dir, "cases_sim_results")
 dir.create(main.dir)
 dir.create(out.dir)
 
