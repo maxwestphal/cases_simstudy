@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "cases simulation study",
     "section": "",
-    "text": "Overview\nWestphal & Zapf, 2021 investigated different multiple comparison procedures (MCPs) for a certain type of analyis (e.g.) relevant in diagnostic accuracy studies, the so-called co-primary endpoint analysis.\nThe R package cases contains user-friendly implementations of these MCPs.\nThis R project cases_simstudy contains a reproducible description of the implementation and results of this simulation study in form of a quarto book. The GitHub repository for this project is github.com/maxwestphal/cases_simstudy\nThis report is not meant to a standalone resource but rather should be read in addition to the main paper.\nIn addition, the R script cases_simstudy_paper_figures.R allows to reproduce the figures in the main paper."
+    "text": "Overview\nWestphal & Zapf, 2024 investigated different multiple comparison procedures (MCPs) for a certain type of analyis (e.g.) relevant in diagnostic accuracy studies, the so-called co-primary endpoint analysis.\nThe R package cases contains user-friendly implementations of these MCPs.\nThis R project cases_simstudy contains a reproducible description of the implementation and results of this simulation study in form of a quarto book. The GitHub repository for this project is github.com/maxwestphal/cases_simstudy\nThis report is not meant to a standalone resource but rather should be read in addition to the main paper.\nIn addition, the R script cases_simstudy_paper_figures.R allows to reproduce the figures in the main paper."
   },
   {
     "objectID": "1_implementation.html",
@@ -67,7 +67,7 @@
     "href": "index.html#references",
     "title": "cases simulation study",
     "section": "References",
-    "text": "References\n\nWestphal, Max, and Antonia Zapf. “Statistical Inference for Diagnostic Test Accuracy Studies with Multiple Comparisons.” arXiv preprint arXiv:2105.13469 (2021)."
+    "text": "References\n\nWestphal M, Zapf A. Statistical inference for diagnostic test accuracy studies with multiple comparisons. Statistical Methods in Medical Research. 2024;0(0). doi:10.1177/09622802241236933"
   },
   {
     "objectID": "1_implementation.html#software",

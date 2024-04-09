@@ -10,8 +10,8 @@
 ###
 #   Task: 
 #   cases_simstudy_paper_figures.R: Reproduction of figures for main paper:
-#   Westphal, Max, and Antonia Zapf. "Statistical Inference for Diagnostic Test Accuracy Studies
-#   with Multiple Comparisons." arXiv preprint arXiv:2105.13469 (2021).
+#   Westphal M, Zapf A. Statistical inference for diagnostic test accuracy studies with multiple 
+#   comparisons. Statistical Methods in Medical Research. 2024;0(0). doi:10.1177/09622802241236933
 ###
 
 
@@ -204,8 +204,7 @@ ggsave("cases_example_syn_conf.jpg", path = fig.dir, width = fig.width, height =
 ## this example is taken (reduced to necessary code) from the "example_wdbc" vignette, see
 ## vignette(topic="package_overview", package = "cases")
 
-data<- opendata::load_data("wdbc") %>% 
-  dplyr::mutate(diagnosis = as.factor(diagnosis)) 
+data <- cases::data_wdbc
 
 sp0 <- 0.7
 se0 <- 0.9
